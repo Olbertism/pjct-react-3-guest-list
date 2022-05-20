@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+  width: 900px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: rgb(221, 248, 183);
+}
+
+div.guestCard {
+  border: 5px black;
+  border-radius: 20px;
+  background-color: aliceblue;
+  margin-bottom: 20px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+div.inputArea {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+div.inputArea label {
+  padding: 8px;
+}
+
+div.enterHint {
+  position: relative;
+  background-color: rgb(236, 185, 185);
+  border-radius: 15px;
+  max-width: 110px;
+  padding: 5px;
+  left: 650px;
+  top: -35px;
+}
+
+div.enterHint::before {
+  content: '⬅️';
+}
+
+span.name {
+  font-weight: 500;
+}
