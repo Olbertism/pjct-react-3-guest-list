@@ -25,10 +25,11 @@ export default function App() {
 
     async function getGuests() {
       const response = await fetch(`${baseUrl}/guests`);
+      setLoading(false);
       const allGuests = await response.json();
       setGuests(allGuests);
       console.log('fetch succeded!');
-      setLoading(false);
+
     }
     getGuests().catch(() => {
       console.log('fetch failed, retrying in 5 seconds');
