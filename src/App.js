@@ -26,7 +26,7 @@ export default function App() {
     console.log('starting fetch guests useEffect...');
 
     async function getGuests() {
-      const response = await fetch(`${baseUrl}/guests`, { mode: 'cors' });
+      const response = await fetch(`${baseUrl}/guests`, { mode: '*cors' });
       setLoading(false);
       const allGuests = await response.json();
       setGuests(allGuests);
@@ -41,6 +41,7 @@ export default function App() {
   async function createGuest(newGuest) {
     const response = await fetch(`${baseUrl}/guests`, {
       method: 'POST',
+      mode: '*cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -64,6 +65,7 @@ export default function App() {
     // const response =
     await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
+      mode: '*cors'
     });
     // const deletedGuest = await response.json();
     setRefetch(!refetch);
@@ -74,6 +76,7 @@ export default function App() {
     // const response =
     await fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
+      mode: '*cors',
       headers: {
         'Content-Type': 'application/json',
       },
