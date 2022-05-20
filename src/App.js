@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 // handle loading issue when the app starts, but the server is unavailable - i think I did with the refetch and settimeout
 
 export default function App() {
-  const baseUrl = 'http://localhost:4000';
+  const baseUrl = 'https://upleveled-guest-list-api.herokuapp.com';
 
   // for inputs
   const [firstName, setFirstName] = useState('');
@@ -20,16 +20,17 @@ export default function App() {
   const inputFirstName = useRef(null);
   const inputLastName = useRef(null);
 
+  console.log('Loading is...:', loading);
+
   useEffect(() => {
     console.log('starting fetch guests useEffect...');
 
     async function getGuests() {
-      const response = await fetch(`${baseUrl}/guests`);
+      const response = await fetch(`${baseUrl}/guests`, { mode: 'cors' });
       setLoading(false);
       const allGuests = await response.json();
       setGuests(allGuests);
       console.log('fetch succeded!');
-
     }
     getGuests().catch(() => {
       console.log('fetch failed, retrying in 5 seconds');
