@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 // handle loading issue when the app starts, but the server is unavailable - i think I did with the refetch and settimeout
 
 export default function App() {
-  const baseUrl = 'https://upleveled-guest-list-api.herokuapp.com';
+  // const baseUrl = 'https://upleveled-guest-list-api.herokuapp.com'
+  const baseUrl = 'http://localhost:4000';
 
   // for inputs
   const [firstName, setFirstName] = useState('');
@@ -26,22 +27,23 @@ export default function App() {
     console.log('starting fetch guests useEffect...');
 
     async function getGuests() {
-      const response = await fetch(`${baseUrl}/guests`, { mode: '*cors' });
+      const response = await fetch(`${baseUrl}/guests`
+      );
       setLoading(false);
       const allGuests = await response.json();
       setGuests(allGuests);
       console.log('fetch succeded!');
     }
     getGuests().catch(() => {
-      console.log('fetch failed, retrying in 5 seconds');
-      setTimeout(() => setRefetch(!refetch), 5000);
+      console.log('fetch failed, retrying in 5 seconds NOT');
+      // setTimeout(() => setRefetch(!refetch), 5000);
     });
   }, [refetch]);
 
   async function createGuest(newGuest) {
     const response = await fetch(`${baseUrl}/guests`, {
       method: 'POST',
-      mode: '*cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -65,7 +67,7 @@ export default function App() {
     // const response =
     await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
-      mode: '*cors'
+      // mode: 'no-cors',
     });
     // const deletedGuest = await response.json();
     setRefetch(!refetch);
@@ -76,7 +78,7 @@ export default function App() {
     // const response =
     await fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
-      mode: '*cors',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
