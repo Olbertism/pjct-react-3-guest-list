@@ -21,7 +21,7 @@ export default function App() {
   console.log('Loading is...:', loading);
 
   useEffect(() => {
-    console.log('starting fetch guests useEffect...');
+    console.log('Refetching guests...');
 
     async function getGuests() {
       const response = await fetch(`${baseUrl}/guests`);
@@ -31,15 +31,14 @@ export default function App() {
       console.log('fetch succeded!');
     }
     getGuests().catch(() => {
-      console.log('fetch failed, retrying in 5 seconds NOT');
-      // setTimeout(() => setRefetch(!refetch), 5000);
+      console.log('fetch failed, retrying in 10 seconds...');
+      setTimeout(() => setRefetch(!refetch), 10000);
     });
   }, [refetch]);
 
   async function createGuest(newGuest) {
     const response = await fetch(`${baseUrl}/guests`, {
       method: 'POST',
-      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -60,33 +59,38 @@ export default function App() {
   }
 
   async function deleteGuest(id) {
-    // const response =
-    await fetch(`${baseUrl}/guests/${id}`, {
+    const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
-      // mode: 'no-cors',
     });
-    // const deletedGuest = await response.json();
-    setRefetch(!refetch);
+    const deletedGuest = await response.json();
+    const newGuests = guests.filter((guest) => {
+      return guest.id !== deletedGuest.id;
+    });
+    setGuests(newGuests);
   }
 
   async function updateAttendance(id, status) {
     // status: boolean
-    // const response =
-    await fetch(`${baseUrl}/guests/${id}`, {
+    const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
-      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ attending: status }),
     });
-    // const updatedGuest = await response.json();
-    setRefetch(!refetch);
+    const updatedGuest = await response.json();
+    const newGuests = guests.map((guest) => {
+      if (guest.id === updatedGuest.id) {
+        return { ...guest, attending: updatedGuest.attending };
+      }
+      return guest;
+    });
+    setGuests(newGuests);
   }
 
   return (
     <div className="App">
-      <h1>The coolest Party in the world</h1>
+      <h1>The coolest party in the world</h1>
       <h3>Who is going to be there?</h3>
       <div className="inputArea">
         <label>
@@ -140,7 +144,6 @@ export default function App() {
                         type="checkbox"
                         aria-label="attending"
                         onChange={(event) => {
-                          console.log(event.currentTarget);
                           updateAttendance(
                             guest.id,
                             event.currentTarget.checked,
