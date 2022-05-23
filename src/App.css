@@ -1,3 +1,11 @@
+* {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+h1 {
+  font-weight: 700;
+}
+
 .App {
   text-align: center;
   width: 900px;
@@ -17,6 +25,25 @@ div.guestCard {
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
+  box-shadow: 2px 3px 4px #00000078;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+div.guestCard button {
+  background-color: rgb(198, 60, 60);
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+  position: relative;
+  left: 36px;
+  border: 2px rgb(198, 60, 60);
+}
+
+div.guestCard button:hover {
+  background-color: rgb(255, 80, 80);
+  border: 2px rgb(255, 80, 80);
 }
 
 div.inputArea {
@@ -46,4 +73,5 @@ div.enterHint::before {
 
 span.name {
   font-weight: 500;
+  max-width: 130px;
 }
