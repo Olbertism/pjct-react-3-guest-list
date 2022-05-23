@@ -73,5 +73,6 @@ div.enterHint::before {
 
 span.name {
   font-weight: 500;
+  min-width: 130px;
   max-width: 130px;
 }
