@@ -16,6 +16,24 @@ body {
   background-color: rgb(221, 248, 183);
 }
 
+div.filterButtons {
+  margin-bottom: 30px;
+}
+
+div.filterButtons button {
+  background-color: rgb(57, 57, 185);
+  color: white;
+  margin: 5px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 2px rgb(57, 57, 185);
+}
+
+div.filterButtons button:hover {
+  background-color: rgb(77, 77, 249);
+  border: 2px rgb(77, 77, 249);
+}
+
 div.guestCard {
   border: 5px black;
   border-radius: 20px;
