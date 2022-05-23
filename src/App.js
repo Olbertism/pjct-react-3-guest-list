@@ -14,14 +14,18 @@ export default function App() {
   const [refetch, setRefetch] = useState(true);
   const [loading, setLoading] = useState(true);
 
+  // for filters
+  const [activeFilter, setActiveFilter] = useState(false);
+
   // identifier for input fields
   const inputFirstName = useRef(null);
   const inputLastName = useRef(null);
 
   console.log('Loading is...:', loading);
+  console.log('Active filter? ', activeFilter);
 
   useEffect(() => {
-    console.log('Refetching guests...');
+    console.log('Fetching guests...');
 
     async function getGuests() {
       const response = await fetch(`${baseUrl}/guests`);
@@ -59,6 +63,7 @@ export default function App() {
   }
 
   async function deleteGuest(id) {
+    // if (activeFilter) {setGuests(originalGuests)};
     const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
     });
@@ -71,6 +76,7 @@ export default function App() {
 
   async function updateAttendance(id, status) {
     // status: boolean
+    // if (activeFilter) {setGuests(originalGuests)};
     const response = await fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
       headers: {
@@ -88,6 +94,37 @@ export default function App() {
     setGuests(newGuests);
   }
 
+  // Filter function via additional requests to enable removals. However, updating attendence while in filter view is not supported atm
+  async function filterGuests(attendance) {
+    setActiveFilter(true);
+    const response = await fetch(`${baseUrl}/guests`);
+    setLoading(false);
+    const allGuests = await response.json();
+    const filteredArray = allGuests.filter((guest) => {
+      if (attendance) {
+        return guest.attending;
+      } else {
+        return !guest.attending;
+      }
+    });
+    setGuests(filteredArray);
+    console.log('filtered: ', filteredArray);
+  }
+
+  /*   function localfilterGuests(attendance) {
+    setActiveFilter(true);
+    const filteredArray = guests.filter((guest) => {
+      if (attendance) {
+        return guest.attending;
+      } else {
+        return !guest.attending;
+      }
+    });
+    // setOriginalGuests(guests)
+    setGuests(filteredArray);
+    console.log('filtered: ', filteredArray);
+  }
+ */
   return (
     <div className="App">
       <h1>The coolest party in the world</h1>
@@ -128,6 +165,30 @@ export default function App() {
       <div className="enterHint">Hit enter!</div>
       <div className="API">
         <h3>The coolest people of the world</h3>
+        <div className="filterButtons">
+          <button
+            onClick={() => {
+              filterGuests(true).catch(() => {});
+            }}
+          >
+            Display only attending
+          </button>
+          <button
+            onClick={() => {
+              filterGuests(false).catch(() => {});
+            }}
+          >
+            Display only unattending
+          </button>
+          <button
+            onClick={() => {
+              setActiveFilter(false);
+              setRefetch(!refetch);
+            }}
+          >
+            Clear filter
+          </button>
+        </div>
         {loading ? (
           <h2>Loading...</h2>
         ) : (
