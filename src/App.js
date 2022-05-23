@@ -43,8 +43,8 @@ export default function App() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: newGuest[0],
-        lastName: newGuest[1],
+        firstName: newGuest[0].trim(),
+        lastName: newGuest[1].trim(),
       }),
     });
     const createdGuest = await response.json();
